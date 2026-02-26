@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lost & Found Management System</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>"
+    />
+  </head>
+  <body>
+    <!-- ========== LOADING SCREEN ========== -->
+    <div
+      id="loading-screen"
+      style="
+        position: fixed;
+        inset: 0;
+        background: #020617;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        color: white;
+        gap: 1.25rem;
+        font-family:
+          &quot;Inter&quot;,
+          -apple-system,
+          BlinkMacSystemFont,
+          &quot;Segoe UI&quot;,
+          sans-serif;
+      "
+    >
+      <!-- Decorative glow -->
+      <div
+        style="
+          position: absolute;
+          width: 300px;
+          height: 300px;
+          border-radius: 50%;
+          background: radial-gradient(
+            circle,
+            rgba(99, 102, 241, 0.25) 0%,
+            transparent 70%
+          );
+          pointer-events: none;
+        "
+      ></div>
+      <div style="font-size: 3rem; position: relative">&#128270;</div>
+      <h2
+        style="
+          font-size: 1.375rem;
+          font-weight: 800;
+          margin: 0;
+          letter-spacing: -0.03em;
+          position: relative;
+        "
+      >
+        Lost &amp; Found
+      </h2>
+      <p
+        style="
+          font-size: 0.8rem;
+          color: rgba(255, 255, 255, 0.45);
+          margin: 0;
+          font-weight: 500;
+          position: relative;
+        "
+      >
+        Connecting to database&hellip;
+      </p>
+      <div
+        style="
+          width: 32px;
+          height: 32px;
+          border: 3px solid rgba(99, 102, 241, 0.2);
+          border-top-color: #6366f1;
+          border-radius: 50%;
+          animation: spin 0.7s linear infinite;
+          position: relative;
+        "
+      ></div>
+      <style>
+        @keyframes spin {
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      </style>
+    </div>
+
+    <!-- ========== TOAST NOTIFICATIONS ========== -->
+    <div id="toast-container" class="toast-container"></div>
+
+    <!-- ========== MODAL CONTAINER ========== -->
+    <div id="modal-container" class="hidden"></div>
+
+    <!-- ========================================== -->
+    <!-- ========== LOGIN / REGISTER PAGE ========= -->
+    <!-- ========================================== -->
+    <div id="login-page">
+      <div class="login-wrapper">
+        <div class="login-card">
+          <div class="login-header">
+            <div class="logo-icon">&#128270;</div>
+            <h1>Lost &amp; Found</h1>
+            <p>Management System</p>
+          </div>
+          <div class="login-body">
+            <!-- Tabs -->
+            <div class="login-tabs">
+              <button class="login-tab active" id="tab-login">Sign In</button>
+              <button class="login-tab" id="tab-register">Register</button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="login-form">
+              <div id="login-alert"></div>
+              <form id="form-login">
+                <div class="form-group">
+                  <label for="login-username">Username</label>
+                  <input
+                    type="text"
+                    id="login-username"
+                    class="form-control"
+                    placeholder="Enter your username"
+                    autocomplete="username"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="login-password">Password</label>
+                  <input
+                    type="password"
+                    id="login-password"
+                    class="form-control"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                  Sign In
+                </button>
+              </form>
+              <div style="margin-top: 1rem; text-align: center">
+                <small class="text-muted">
+                  Demo Accounts:<br />
+                  Admin &mdash; <strong>admin</strong> /
+                  <strong>admin123</strong><br />
+                </small>
+              </div>
+            </div>
+
+            <!-- Register Form -->
+            <div id="register-form" class="hidden">
+              <div id="register-alert"></div>
+              <form id="form-register">
+                <div class="form-group">
+                  <label for="reg-fullname">Full Name</label>
+                  <input
+                    type="text"
+                    id="reg-fullname"
+                    class="form-control"
+                    placeholder="Enter your full name"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="reg-username">Username</label>
+                  <input
+                    type="text"
+                    id="reg-username"
+                    class="form-control"
+                    placeholder="Choose a username"
+                    autocomplete="username"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="reg-password">Password</label>
+                  <input
+                    type="password"
+                    id="reg-password"
+                    class="form-control"
+                    placeholder="At least 6 characters"
+                    autocomplete="new-password"
+                    required
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="reg-confirm">Confirm Password</label>
+                  <input
+                    type="password"
+                    id="reg-confirm"
+                    class="form-control"
+                    placeholder="Re-enter your password"
+                    autocomplete="new-password"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">
+                  Create Account
+                </button>
+              </form>
+            </div>
+          </div>
+          <div class="login-footer">
+            <p>&copy; 2026 Lost &amp; Found Management System</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- ============= MAIN APP PAGE ============== -->
+    <!-- ========================================== -->
+    <div id="app-page" class="hidden">
+      <div class="app-container">
+        <!-- ===== Sidebar ===== -->
+        <aside class="sidebar" id="sidebar">
+          <div class="sidebar-header">
+            <h2>&#128270; Lost &amp; Found</h2>
+            <div class="subtitle">Management System</div>
+          </div>
+
+          <nav class="sidebar-nav">
+            <div class="nav-section-title">Main</div>
+            <div class="nav-item active" data-page="dashboard">
+              <span class="nav-icon">&#127968;</span>
+              <span>Dashboard</span>
+            </div>
+            <div class="nav-item" data-page="all-items">
+              <span class="nav-icon">&#128196;</span>
+              <span>All Items</span>
+            </div>
+            <div class="nav-item" data-page="my-reports">
+              <span class="nav-icon">&#128203;</span>
+              <span>My Reports</span>
+            </div>
+
+            <div class="nav-section-title">Report</div>
+            <div class="nav-item" data-page="report-lost">
+              <span class="nav-icon">&#128270;</span>
+              <span>Report Lost Item</span>
+            </div>
+            <div class="nav-item" data-page="report-found">
+              <span class="nav-icon">&#9989;</span>
+              <span>Report Found Item</span>
+            </div>
+
+            <!-- Admin Only Section -->
+            <div id="admin-nav-section" class="hidden">
+              <div class="nav-section-title">Administration</div>
+              <div class="nav-item" data-page="admin-manage">
+                <span class="nav-icon">&#9881;&#65039;</span>
+                <span>Manage Items</span>
+              </div>
+              <div class="nav-item" data-page="admin-users">
+                <span class="nav-icon">&#128101;</span>
+                <span>Manage Users</span>
+              </div>
+            </div>
+          </nav>
+
+          <div class="sidebar-footer">
+            <div class="user-info">
+              <div class="user-avatar" id="user-avatar">AD</div>
+              <div class="user-details">
+                <div class="user-name" id="user-name">Admin</div>
+                <div class="user-role" id="user-role">admin</div>
+              </div>
+              <button class="btn-logout" id="btn-logout" title="Logout">
+                &#9211;
+              </button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- ===== Main Content ===== -->
+        <div class="main-content">
+          <!-- Top Bar -->
+          <header class="topbar">
+            <div class="topbar-left">
+              <button class="menu-toggle" id="menu-toggle">&#9776;</button>
+              <h1 class="page-title" id="page-title">Dashboard</h1>
+            </div>
+            <div class="topbar-right">
+              <span
+                class="text-muted"
+                style="font-size: 0.85rem"
+                id="current-date"
+              ></span>
+            </div>
+          </header>
+
+          <!-- Dynamic Content Area -->
+          <div class="content-area" id="content-area">
+            <!-- Rendered by app.js -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <!-- Firebase SDKs (compat for non-module use) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
+
+    <!-- App Scripts (order matters) -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/items.js"></script>
+    <script src="js/app.js"></script>
+
+    <!-- Display current date in topbar -->
+    <script>
+      const dateEl = document.getElementById("current-date");
+      if (dateEl) {
+        dateEl.textContent = new Date().toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+    </script>
+  </body>
+</html>

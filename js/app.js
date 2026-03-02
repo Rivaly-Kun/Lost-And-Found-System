@@ -177,7 +177,7 @@ var App = {
         content.innerHTML = "";
         break;
       case "admin-users":
-        content.innerHTML = this.renderAdminUsers();
+        content.innerHTML = "";
         break;
       default:
         content.innerHTML = this.renderDashboard();

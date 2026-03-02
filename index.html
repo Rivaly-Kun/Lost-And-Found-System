@@ -5,101 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Lost & Found Management System</title>
     <link rel="stylesheet" href="css/styles.css" />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔍</text></svg>"
-    />
   </head>
   <body>
-    <!-- ========== LOADING SCREEN ========== -->
+    <!-- Loading Screen -->
     <div
       id="loading-screen"
       style="
         position: fixed;
-        inset: 0;
-        background: #020617;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: white;
         display: flex;
-        flex-direction: column;
         align-items: center;
         justify-content: center;
         z-index: 9999;
-        color: white;
-        gap: 1.25rem;
-        font-family:
-          &quot;Inter&quot;,
-          -apple-system,
-          BlinkMacSystemFont,
-          &quot;Segoe UI&quot;,
-          sans-serif;
       "
     >
-      <!-- Decorative glow -->
-      <div
-        style="
-          position: absolute;
-          width: 300px;
-          height: 300px;
-          border-radius: 50%;
-          background: radial-gradient(
-            circle,
-            rgba(99, 102, 241, 0.25) 0%,
-            transparent 70%
-          );
-          pointer-events: none;
-        "
-      ></div>
-      <div style="font-size: 3rem; position: relative">&#128270;</div>
-      <h2
-        style="
-          font-size: 1.375rem;
-          font-weight: 800;
-          margin: 0;
-          letter-spacing: -0.03em;
-          position: relative;
-        "
-      >
-        Lost &amp; Found
-      </h2>
-      <p
-        style="
-          font-size: 0.8rem;
-          color: rgba(255, 255, 255, 0.45);
-          margin: 0;
-          font-weight: 500;
-          position: relative;
-        "
-      >
-        Connecting to database&hellip;
-      </p>
-      <div
-        style="
-          width: 32px;
-          height: 32px;
-          border: 3px solid rgba(99, 102, 241, 0.2);
-          border-top-color: #6366f1;
-          border-radius: 50%;
-          animation: spin 0.7s linear infinite;
-          position: relative;
-        "
-      ></div>
-      <style>
-        @keyframes spin {
-          to {
-            transform: rotate(360deg);
-          }
-        }
-      </style>
+      <div style="text-align: center">
+        <p style="font-size: 24px">&#128270;</p>
+        <p>Loading...</p>
+      </div>
     </div>
 
-    <!-- ========== TOAST NOTIFICATIONS ========== -->
+    <!-- Toast Container -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- ========== MODAL CONTAINER ========== -->
+    <!-- Modal Container -->
     <div id="modal-container" class="hidden"></div>
 
-    <!-- ========================================== -->
-    <!-- ========== LOGIN / REGISTER PAGE ========= -->
-    <!-- ========================================== -->
+    <!-- Login Page -->
     <div id="login-page">
       <div class="login-wrapper">
         <div class="login-card">
@@ -126,7 +62,6 @@
                     id="login-username"
                     class="form-control"
                     placeholder="Enter your username"
-                    autocomplete="username"
                     required
                   />
                 </div>
@@ -137,7 +72,6 @@
                     id="login-password"
                     class="form-control"
                     placeholder="Enter your password"
-                    autocomplete="current-password"
                     required
                   />
                 </div>
@@ -145,11 +79,9 @@
                   Sign In
                 </button>
               </form>
-              <div style="margin-top: 1rem; text-align: center">
+              <div style="margin-top: 10px; text-align: center">
                 <small class="text-muted">
-                  Demo Accounts:<br />
-                  Admin &mdash; <strong>admin</strong> /
-                  <strong>admin123</strong><br />
+                  Demo: <strong>admin</strong> / <strong>admin123</strong>
                 </small>
               </div>
             </div>
@@ -175,7 +107,6 @@
                     id="reg-username"
                     class="form-control"
                     placeholder="Choose a username"
-                    autocomplete="username"
                     required
                   />
                 </div>
@@ -186,7 +117,6 @@
                     id="reg-password"
                     class="form-control"
                     placeholder="At least 6 characters"
-                    autocomplete="new-password"
                     required
                   />
                 </div>
@@ -197,7 +127,6 @@
                     id="reg-confirm"
                     class="form-control"
                     placeholder="Re-enter your password"
-                    autocomplete="new-password"
                     required
                   />
                 </div>
@@ -207,19 +136,14 @@
               </form>
             </div>
           </div>
-          <div class="login-footer">
-            <p>&copy; 2026 Lost &amp; Found Management System</p>
-          </div>
         </div>
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- ============= MAIN APP PAGE ============== -->
-    <!-- ========================================== -->
+    <!-- Main App Page -->
     <div id="app-page" class="hidden">
       <div class="app-container">
-        <!-- ===== Sidebar ===== -->
+        <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
           <div class="sidebar-header">
             <h2>&#128270; Lost &amp; Found</h2>
@@ -251,7 +175,7 @@
               <span>Report Found Item</span>
             </div>
 
-            <!-- Admin Only Section -->
+            <!-- Admin Only -->
             <div id="admin-nav-section" class="hidden">
               <div class="nav-section-title">Administration</div>
               <div class="nav-item" data-page="admin-manage">
@@ -279,24 +203,18 @@
           </div>
         </aside>
 
-        <!-- ===== Main Content ===== -->
+        <!-- Main Content -->
         <div class="main-content">
-          <!-- Top Bar -->
           <header class="topbar">
             <div class="topbar-left">
               <button class="menu-toggle" id="menu-toggle">&#9776;</button>
               <h1 class="page-title" id="page-title">Dashboard</h1>
             </div>
             <div class="topbar-right">
-              <span
-                class="text-muted"
-                style="font-size: 0.85rem"
-                id="current-date"
-              ></span>
+              <span class="text-muted" id="current-date"></span>
             </div>
           </header>
 
-          <!-- Dynamic Content Area -->
           <div class="content-area" id="content-area">
             <!-- Rendered by app.js -->
           </div>
@@ -304,29 +222,22 @@
       </div>
     </div>
 
-    <!-- ========== SCRIPTS ========== -->
-    <!-- Firebase SDKs (compat for non-module use) -->
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
 
-    <!-- App Scripts (order matters) -->
+    <!-- App Scripts -->
     <script src="js/firebase-config.js"></script>
     <script src="js/storage.js"></script>
     <script src="js/auth.js"></script>
     <script src="js/items.js"></script>
     <script src="js/app.js"></script>
 
-    <!-- Display current date in topbar -->
     <script>
-      const dateEl = document.getElementById("current-date");
+      var dateEl = document.getElementById("current-date");
       if (dateEl) {
-        dateEl.textContent = new Date().toLocaleDateString("en-US", {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-        });
+        dateEl.textContent = new Date().toLocaleDateString();
       }
     </script>
   </body>

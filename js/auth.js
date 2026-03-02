@@ -1,34 +1,24 @@
-// ===== Authentication Module =====
-// login() is synchronous (reads from in-memory cache).
-// register() is async (writes to Firebase Realtime DB).
+// Authentication Module
 
-const Auth = {
-  // Synchronous login — checks in-memory users cache
-  login(username, password) {
-    const user = Storage.findUserByUsername(username);
+var Auth = {
+  // Login - WORKS
+  login: function (username, password) {
+    var user = Storage.findUserByUsername(username);
 
     if (!user) {
-      return {
-        success: false,
-        message: "User not found. Please check your username.",
-      };
+      return { success: false, message: "User not found." };
     }
 
     if (user.password !== password) {
-      return {
-        success: false,
-        message: "Incorrect password. Please try again.",
-      };
+      return { success: false, message: "Incorrect password." };
     }
 
     Storage.setCurrentUser(user);
-    return { success: true, message: "Login successful!", user };
+    return { success: true, message: "Login successful!", user: user };
   },
 
-  // Async register — writes new user to Firebase Realtime DB
-  // Returns Promise<{ success, message, user? }>
-  register(fullName, username, password, confirmPassword) {
-    // Validation (return instantly for invalid input)
+  // Register - working
+  register: function (fullName, username, password, confirmPassword) {
     if (!fullName || !username || !password || !confirmPassword) {
       return Promise.resolve({
         success: false,
@@ -60,11 +50,11 @@ const Auth = {
       });
     }
 
-    const existing = Storage.findUserByUsername(username.trim());
+    var existing = Storage.findUserByUsername(username.trim());
     if (existing) {
       return Promise.resolve({
         success: false,
-        message: "Username already taken. Please choose another.",
+        message: "Username already taken.",
       });
     }
 
@@ -74,34 +64,36 @@ const Auth = {
       password: password,
       role: "student",
     })
-      .then((newUser) => {
+      .then(function (newUser) {
         Storage.setCurrentUser(newUser);
         return {
           success: true,
-          message: "Registration successful! Welcome aboard.",
+          message: "Registration successful!",
           user: newUser,
         };
       })
-      .catch(() => ({
-        success: false,
-        message: "Registration failed. Please try again.",
-      }));
+      .catch(function () {
+        return {
+          success: false,
+          message: "Registration failed. Please try again.",
+        };
+      });
   },
 
-  logout() {
+  logout: function () {
     Storage.clearCurrentUser();
   },
 
-  getCurrentUser() {
+  getCurrentUser: function () {
     return Storage.getCurrentUser();
   },
 
-  isLoggedIn() {
+  isLoggedIn: function () {
     return !!Storage.getCurrentUser();
   },
 
-  isAdmin() {
-    const user = Storage.getCurrentUser();
+  isAdmin: function () {
+    var user = Storage.getCurrentUser();
     return user && user.role === "admin";
   },
 };
